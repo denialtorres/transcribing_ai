@@ -9,7 +9,7 @@ COPY yarn.lock /rails/yarn.lock
 WORKDIR /rails
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl build-essential libpq-dev libjemalloc2 libvips postgresql-client && \
+    apt-get install --no-install-recommends -y curl build-essential libpq-dev libjemalloc2 libvips postgresql-client ffmpeg python3-pip python3-venv && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -27,3 +27,9 @@ RUN apt-get update \
     && apt-get install -y nodejs \
     && npm install -g yarn \
     && rm -rf /var/lib/apt/lists/*
+
+# install torch and openai-whisper
+RUN python3 -m venv /venv
+RUN /venv/bin/pip install "numpy<2.0"
+RUN /venv/bin/pip install torch==2.2.2+cpu -f https://download.pytorch.org/whl/torch_stable.html
+RUN /venv/bin/pip install openai-whisper
