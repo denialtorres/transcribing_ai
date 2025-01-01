@@ -1,2 +1,4 @@
 web: env RUBY_DEBUG_OPEN=true bin/rails server -b 0.0.0.0
+worker: sidekiq -C config/sidekiq_default.yml
+transcriber: sidekiq -C config/sidekiq_transcriber.yml
 css: yarn watch:css
