@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        ProcessTranscription.perform_later(@project.id)
+        ProcessTranscriptionJob.perform_later(@project.id)
         format.html { redirect_to @project, notice: "Project was successfully created." }
         format.json { render :show, status: :created, location: @project }
       else
